@@ -15,7 +15,7 @@ import java.util.List;
 public interface GateFlightsDao extends JpaRepository<GateFlights, GateFlightsId> {
 
     @Query("select g.gate from GateFlights g where g.flight.id = :flightId ")
-    Gate getGateIdForFlight(@Param("flightId") Long flightId);
+    Gate getGateForFlight(@Param("flightId") Long flightId);
 
     @Query("select count(g) = 0 from GateFlights g where g.gate.id = :gateId and g.isTerminated = false " +
             "and (g.gateLockedUntil BETWEEN :from AND :to)")

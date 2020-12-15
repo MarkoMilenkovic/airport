@@ -18,6 +18,11 @@ public class Gate implements Serializable {
     public Gate() {
     }
 
+    public Gate(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

@@ -25,7 +25,7 @@ public class GateService {
     }
 
     public Gate getGateByFlightId(Long flightId) {
-        return Optional.ofNullable(gateFlightsDao.getGateIdForFlight(flightId))
+        return Optional.ofNullable(gateFlightsDao.getGateForFlight(flightId))
                 .orElseThrow(() -> new NotFoundException("No gate found for given flight!"));
     }
 
