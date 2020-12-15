@@ -7,6 +7,7 @@ import com.daon.airport.entity.GateAvailability;
 import com.daon.airport.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,10 +31,10 @@ public class GateService {
 
     public boolean isGateAvailable(Long gateId, Date from, Date to) {
         Gate gate = getGateById(gateId);
-        GateAvailability gateAvailabilityForDate =
+        List<GateAvailability> gateAvailabilityForDate =
                 gateAvailabilityService.getGateAvailabilityForDate(gate, from, to);
 
-        if (gateAvailabilityForDate != null) {
+        if (!gateAvailabilityForDate.isEmpty()) {
             return true;
         }
 

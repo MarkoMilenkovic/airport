@@ -43,12 +43,12 @@ public class GateAvailabilityService {
     }
 
     @Transactional
-    public GateAvailability updateGateAvailabilityTime(GateAvailability gateAvailability, Date from, Date to) {
-        List<GateFlights> busyGates = gateFlightsDao.getBusyGate(gateAvailability.getId(), from, to);
+    public GateAvailability updateGateAvailabilityTime(Gate gate, Date from, Date to) {
+        List<GateFlights> busyGates = gateFlightsDao.getBusyGate(gate.getId(), from, to);
         if (!busyGates.isEmpty()) {
             throw new BadRequestException("Gate can not be available at given time because there are scheduled flights!");
         }
-        List<GateAvailability> gateAvailabilityForDate = getGateAvailabilityForDate(gateAvailability.getGate(), from, to);
+        List<GateAvailability> gateAvailabilityForDate = getGateAvailabilityForDate(gate, from, to);
         if (gateAvailabilityForDate.size() > 1) {
             throw new BadRequestException("Multiple records for given time, please provide another range!");
         }
