@@ -1,12 +1,10 @@
-package com.daon.airport;
+package com.daon.airport.service;
 
 import com.daon.airport.dao.GateDao;
 import com.daon.airport.dao.GateFlightsDao;
 import com.daon.airport.entity.Gate;
 import com.daon.airport.entity.GateAvailability;
 import com.daon.airport.exception.NotFoundException;
-import com.daon.airport.service.GateAvailabilityService;
-import com.daon.airport.service.GateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
