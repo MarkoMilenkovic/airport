@@ -60,15 +60,18 @@ public class GateAvailabilityService {
 
     @Transactional
     public GateAvailability addGateAvailability(Gate gate, GateAvailabilityModel gateAvailabilityModel) {
-        List<GateFlights> busyGates = gateFlightsDao.getBusyGate(gateAvailabilityModel.getGate().getId(),
+        List<GateFlights> busyGates = gateFlightsDao.getBusyGate(gate.getId(),
                 gateAvailabilityModel.getAvailableFrom(), gateAvailabilityModel.getAvailableTo());
         if (!busyGates.isEmpty()) {
             throw new BadRequestException("Gate can not be available at given time because there are scheduled flights!");
         }
-        List<GateAvailability> byGateIdAndDateBetween = gateAvailabilityDao.getByGateIdAndDateBetween(gate.getId(),
+        List<GateAvailability> byGateIdAndDateBetween = getGateAvailabilityForDate(gate,
                 gateAvailabilityModel.getAvailableFrom(), gateAvailabilityModel.getAvailableTo());
         if (!byGateIdAndDateBetween.isEmpty()) {
             throw new BadRequestException("Gate is already available at given times!");
+        }
+        if (gateAvailabilityModel.getAvailableFrom().after(gateAvailabilityModel.getAvailableTo())) {
+            throw new BadRequestException("Date from must be before date to!");
         }
         GateAvailability gateAvailability = new GateAvailability();
         gateAvailability.setAvailableFrom(gateAvailabilityModel.getAvailableFrom());
@@ -76,4 +79,5 @@ public class GateAvailabilityService {
         gateAvailability.setGate(gate);
         return gateAvailabilityDao.save(gateAvailability);
     }
+
 }
