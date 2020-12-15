@@ -1,0 +1,43 @@
+CREATE TABLE `new_schema`.`gate` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `new_schema`.`flight` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `from` VARCHAR(45) NULL,
+  `to` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `new_schema`.`gate_flights` (
+  `gate_id` INT NOT NULL,
+  `flight_id` INT NOT NULL,
+  `arrived_at` TIMESTAMP(3) NULL,
+  `gate_locked_until` TIMESTAMP(3) NULL,
+  PRIMARY KEY (`gate_id`, `flight_id`),
+  INDEX `fk_flight_idx` (`flight_id` ASC) VISIBLE,
+  CONSTRAINT `fk_gate`
+    FOREIGN KEY (`gate_id`)
+    REFERENCES `new_schema`.`gate` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_flight`
+    FOREIGN KEY (`flight_id`)
+    REFERENCES `new_schema`.`flight` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `new_schema`.`gate_availability` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `availalbe_from` TIMESTAMP(3) NULL,
+  `available_to` TIMESTAMP(3) NULL,
+  `gate_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_gate_idx` (`gate_id` ASC) VISIBLE,
+  CONSTRAINT `fk_gate`
+    FOREIGN KEY (`gate_id`)
+    REFERENCES `new_schema`.`gate` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
